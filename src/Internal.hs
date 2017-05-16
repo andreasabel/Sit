@@ -128,15 +128,6 @@ zero = Zero . Arg Irrelevant
 suc :: Size -> Term -> Term
 suc = Suc . Arg Irrelevant
 
--- var :: Index -> Term
--- var i = Var i []
-
--- app :: Term -> Arg Term -> Maybe Term
--- app t u = case t of
---   Var x es -> Just $ Var x $ es ++ [ Apply u ]
---   Def f es -> Just $ Def f $ es ++ [ Apply u ]
---   _ -> Nothing
-
 defaultArg :: a -> Arg a
 defaultArg = Arg Relevant
 

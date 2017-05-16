@@ -208,12 +208,6 @@ inferPiType x dom cont = do
 
 checkSize :: A.Exp -> Check Size
 checkSize e = checkExp e VSize
--- checkSize = \case
---   A.Infty        -> return Infty
---   A.LZero        -> return $ sZero
---   A.App A.LSuc e -> sSuc <$> checkSize e
---   e@(A.Var x)    -> checkExp e VSize
---   e -> throwError $ "Not a valid size expression: " ++ printTree e
 
 checkLevel :: A.Exp -> Check Level
 checkLevel = \case
@@ -221,10 +215,6 @@ checkLevel = \case
   A.App A.LSuc e -> sSuc <$> checkLevel e
   e@(A.Var x)    -> checkExp e VSize
   e -> throwError $ "Not a valid level expression: " ++ printTree e
-
--- maxLevel :: A.Exp -> VLevel -> VLevel -> Check VLevel
--- maxLevel e l1 l2 = maybe failure return $ maxSize l1 l2
---   where failure = throwError $ "Cannot assign a universe level to type " ++ printTree e
 
 checkExp :: A.Exp -> VType -> Check Term
 checkExp e0 t = do
@@ -250,8 +240,6 @@ checkExp e0 t = do
           -- Infer the type of the case expression
           tt <- reifyType t
           -- Make sure that b is a successor size
-          -- let failNotSuc = throwError $ "Splitting Nat is only possible at successor size, when checking " ++ printTree e
-          -- a  <- maybe failNotSuc return $ sizePred b
           let a = fromMaybe __IMPOSSIBLE__ $ sizePred b
           ta <- reifySize a
           tz <- checkExp ez =<< applyClosure cl (VZero a)
@@ -270,7 +258,6 @@ checkExp e0 t = do
     e -> do
       (u, ti) <- inferExp e
       coerce u ti t
-    -- e -> nyi $ "checking " ++ printTree e
 
 -- | Infers neutrals, natural numbers, types.
 
@@ -322,11 +309,6 @@ inferExp e0 = case (e0, appView e0) of
   (A.Plus e k, _) -> do
     u <- checkSize e
     return (sPlus u k, VSize)
-
-  -- (A.Plus x k, _) -> do
-  --   (u, t) <- inferId x
-  --   subType t VSize
-  --   return (sPlus u k, t)
 
   (A.Var A.Under, _) -> throwError "Illegal expression: _"
   (A.Var (A.Id x), _) -> inferId x
@@ -608,11 +590,6 @@ lowerSemi k t = do
      traceM $ "lowerSemi " ++ show k ++ "  " ++ show t
      __IMPOSSIBLE__
 
--- antitone :: VGen -> VType -> Check Bool
--- antitone k t = do
---   traceM $ "\nantitone " ++ show k ++ "  " ++ show t
---   return True
-
 monotone :: VGen -> Bool -> VType -> Check Bool
 monotone k b t = do
   debug (if b then "monotone" else "antitone") k t
@@ -625,15 +602,6 @@ monotone k b t = do
     VType a -> monotoneSize k b a
     VNat  a -> monotoneSize k b a
     VSize   -> return True
-    -- VInfty  -> return True
-    -- VZero _ -> return True
-    -- VSuc _ v -> monotone k b v
-    -- VLam cl  -> addContext ("#", VSize) $ do
-    --   u <- lastVal
-    --   monotone k b =<< applyClosure cl u
-    -- VUp _ (VNe k' es)
-    --   | k == k'   -> return b
-    --   | otherwise -> return True
     VUp (VType _) _ -> return True
     _ -> __IMPOSSIBLE__
 

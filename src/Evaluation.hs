@@ -3,7 +3,6 @@
 {-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE TemplateHaskell #-}
 {-# LANGUAGE TypeSynonymInstances, FlexibleInstances, MultiParamTypeClasses #-}
--- {-# LANGUAGE FunctionalDependencies, UndecidableInstances #-}
 
 -- | Values and weak head evaluation
 
@@ -47,13 +46,10 @@ data Val
   | VSuc VSize Val
   | VInfty
   | VPi (Dom VType) VClos
-  -- Functions
   | -- | Lambda abstraction
     VLam VClos
   | -- | @\ x -> x e@ for internal use in fix.
     VElimBy VElim
-  -- -- | -- | Constant function
-  -- --   VConst Val
   | -- | Neutrals.
     VUp VType VNe
   | -- | Type annotation for readback (normal form).
@@ -191,7 +187,6 @@ instance Evaluate Term Val where
     Zero a   -> VZero <$> eval (unArg a)
     Suc a t  -> liftA2 VSuc (eval $ unArg a) (eval t)
     Pi u t   -> liftA2 VPi (eval u) (eval t)
-    -- Lam ai (NoAbs x t) -> VConst <$> eval t
     Lam ai t -> VLam <$> eval t
     Var x -> eval x
     Def f -> lift $ getDef f
@@ -222,7 +217,7 @@ applyE v e =
     (_        , Apply u     ) -> apply v u
     (VZero _  , Case _ u _ _) -> return u
     (VSuc _ n , Case _ _ _ f) -> apply f $ defaultArg n
-    (VZero a  , Fix t tf f  ) -> unfoldFix t tf f a v -- apply f $ e : map (Apply . defaultArg) [ v , VZero ]
+    (VZero a  , Fix t tf f  ) -> unfoldFix t tf f a v
     (VSuc a n , Fix t tf f  ) -> unfoldFix t tf f a v
     (VUp (VNat a) n , _)      -> elimNeNat a n e
     _ -> __IMPOSSIBLE__
