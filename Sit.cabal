@@ -85,3 +85,15 @@ executable Sit.bin
 
   default-language: Haskell98
   ghc-options:      -rtsopts
+
+test-suite system-test
+  type:             exitcode-stdio-1.0
+
+  hs-source-dirs:   test
+  main-is:          Main.hs
+
+  other-modules:    Paths_Sit
+
+  build-depends:    base, Sit
+
+  default-language: Haskell98
