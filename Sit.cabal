@@ -42,8 +42,7 @@ source-repository head
   type:     git
   location: https://github.com/andreasabel/Sit
 
-executable Sit.bin
-  ghc-options:      -rtsopts
+library
   hs-source-dirs:   src
 
   build-depends:    array >= 0.3 && < 1,
@@ -63,7 +62,7 @@ executable Sit.bin
                     LambdaCase
                     TupleSections
 
-  main-is:          Sit.hs
+  exposed-modules:  Sit
 
   other-modules:    Abstract
                     Evaluation
@@ -76,3 +75,13 @@ executable Sit.bin
                     Sit.Lex
                     Sit.Par
                     Sit.Print
+
+executable Sit.bin
+
+  hs-source-dirs:   main
+  main-is:          Main.hs
+
+  build-depends:    base, Sit
+
+  default-language: Haskell98
+  ghc-options:      -rtsopts

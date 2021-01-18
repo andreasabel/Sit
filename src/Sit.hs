@@ -1,8 +1,11 @@
 {-# LANGUAGE LambdaCase #-}
 
+module Sit (main, check, checkFile) where
+
 import System.Environment (getArgs)
 import System.Exit (exitFailure)
 
+import Control.Monad ((<=<))
 import Data.Foldable
 
 import Sit.Abs
@@ -14,14 +17,20 @@ import TypeChecker
 
 type Err = Either String
 
+-- | Type-check file given by command line.
+
 main :: IO ()
 main = getArgs >>= \case
-  [file] -> check =<< readFile file
+  [file] -> checkFile file
   _ -> usage
 
 usage :: IO ()
 usage = do
-  putStrLn "Usage: Sit <SourceFile>"
+  putStr $ unlines
+    [ "usage: Sit.bin FILE"
+    , ""
+    , "Type-checks the given FILE."
+    ]
   exitFailure
 
 -- | Handle error by failing hard.
@@ -36,7 +45,13 @@ exitMsg msg = do
   putStrLn msg
   exitFailure
 
--- | Run the type checker on file contents
+-- | Run the type checker on file given by path.
+
+checkFile :: FilePath -> IO ()
+checkFile = check <=< readFile
+
+-- | Run the type checker on text/contents of a file.
+
 check :: String -> IO ()
 check txt = do
   Prg decls <- failOnErr "PARSE ERROR" $ pPrg $ myLexer txt
