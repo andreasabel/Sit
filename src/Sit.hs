@@ -6,12 +6,13 @@ import System.Exit (exitFailure)
 import Data.Foldable
 
 import Sit.Abs
-import Sit.ErrM
 import Sit.Lex
 import Sit.Par
 import Sit.Print
 
 import TypeChecker
+
+type Err = Either String
 
 main :: IO ()
 main = getArgs >>= \case
@@ -27,8 +28,8 @@ usage = do
 
 failOnErr :: String -> Err a -> IO a
 failOnErr msg = \case
-  Ok a    -> return a
-  Bad err -> exitMsg $ unlines [ msg , err ]
+  Right a  -> return a
+  Left err -> exitMsg $ unlines [ msg , err ]
 
 exitMsg :: String -> IO a
 exitMsg msg = do

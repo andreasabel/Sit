@@ -1,9 +1,9 @@
 # Makefile for Sit
 
 default :
-	cabal install --only-dependencies
-	cabal configure
-	cabal build
+	cabal v1-install --only-dependencies
+	cabal v1-configure
+	cabal v1-build
 	dist/build/Sit.bin/Sit.bin test/Test.agda
 
 install :

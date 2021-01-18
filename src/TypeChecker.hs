@@ -23,7 +23,6 @@ import Debug.Trace
 
 import qualified Sit.Abs as A
 import Sit.Print
-import Sit.ErrM
 
 import Abstract as A
 import Internal

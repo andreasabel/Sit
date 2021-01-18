@@ -16,7 +16,9 @@
 *.ptb
 *.snm
 *.toc
+.ghc.environment.*
 /dist/
+/dist-newstyle/
 /src/Sit/Doc.txt
 /src/Sit/Par.info
 /src/Sit/Skel.hs
