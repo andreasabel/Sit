@@ -4,7 +4,7 @@ open import Agda.Primitive
   public using (lzero; lsuc)
 
 open import Agda.Builtin.Size
-  public using (Size; ↑_) renaming (ω to oo)
+  public using (Size; ↑_) renaming (∞ to oo)
 
 open import Agda.Builtin.Nat
   public using (suc) renaming (Nat to ℕ)
