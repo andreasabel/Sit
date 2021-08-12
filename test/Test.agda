@@ -1,6 +1,7 @@
 --- Sample Sit file
 
 {-# OPTIONS --experimental-irrelevance #-}
+{-# OPTIONS --sized-types #-}
 
 open import Base
 

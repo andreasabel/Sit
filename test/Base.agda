@@ -1,4 +1,5 @@
 {-# OPTIONS --experimental-irrelevance #-}
+{-# OPTIONS --sized-types #-}
 
 open import Agda.Primitive
   public using (lzero; lsuc)
