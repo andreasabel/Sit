@@ -1,2 +1,5 @@
+branches: master ci*
+distribution: jammy
+
 -- Specify 'constraint: ... installed' packages
 installed: +all -containers -mtl -transformers
