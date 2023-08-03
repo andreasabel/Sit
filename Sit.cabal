@@ -1,5 +1,5 @@
 name:            Sit
-version:         0.2022.3.18
+version:         0.2023.8.3
 build-type:      Simple
 cabal-version:   >= 1.10
 license:         OtherLicense
@@ -19,15 +19,16 @@ description:
   For an example, see file test/Test.agda.
 
 tested-with:
-                    GHC == 8.0.2
-                    GHC == 8.2.2
-                    GHC == 8.4.4
-                    GHC == 8.6.5
-                    GHC == 8.8.4
-                    GHC == 8.10.7
+                    GHC == 9.6.2
+                    GHC == 9.4.5
+                    GHC == 9.2.8
                     GHC == 9.0.2
-                    GHC == 9.2.5
-                    GHC == 9.4.4
+                    GHC == 8.10.7
+                    GHC == 8.8.4
+                    GHC == 8.6.5
+                    GHC == 8.4.4
+                    GHC == 8.2.2
+                    GHC == 8.0.2
 
 data-files:         test/Makefile
                     test/Base.agda
