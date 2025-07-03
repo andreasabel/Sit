@@ -17,8 +17,10 @@
 *.snm
 *.toc
 .ghc.environment.*
+stack*.yaml.lock
 /dist/
 /dist-newstyle/
+/.stack-work/
 /src/Sit/Doc.txt
 /src/Sit/Par.info
 /src/Sit/Skel.hs
