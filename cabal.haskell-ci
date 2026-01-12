@@ -1,6 +1,5 @@
 branches: master
-
--- distribution: jammy
+error-incomplete-patterns: False
 
 -- Specify 'constraint: ... installed' packages
 -- installed: +all -containers -mtl -transformers
